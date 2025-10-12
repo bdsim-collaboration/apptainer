@@ -15,9 +15,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        bdsim: [alma9-g4.10.7-bdsim, alma9-g4.11.0-bdsim,
-                alma9-g4.11.1-bdsim, alma9-g4.11.2-bdsim,
-                alma9-g4.11.3-bdsim]
+        dockerimage: [alma9-g4.10.7-bdsim, alma9-g4.11.0-bdsim,
+                      alma9-g4.11.1-bdsim, alma9-g4.11.2-bdsim,
+                      alma9-g4.11.3-bdsim]
 
     steps:
       - name: Dump job context
@@ -31,7 +31,7 @@ jobs:
       - name: Flatten bdsim containers
         shell: bash
         run: |
-          singularity build ${{ bdsim }}_develop.sif docker:bdsim/${{ bdsim }}:develop
+          singularity build ${{ dockerimage }}_develop.sif docker:bdsim/${{ dockerimage }}:develop
           
       - name: Create Release
         id: create_release
@@ -50,5 +50,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ bdsim }}_develop.sif
-          asset_name: ${{ bdsim }}_develop.sif
+          asset_path: ./${{ dockerimage }}_develop.sif
+          asset_name: ${{ dockerimage }}_develop.sif
