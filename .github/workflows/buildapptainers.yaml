@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           docker pull bdsim/alma9-apptainer 
-          docker run --rm bdsim/alma9-apptainer singularity build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
+          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer singularity build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
           
       - name: Create Release
         id: create_release
@@ -67,5 +67,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ matrix.dockerimage }}_develop.sif
+          asset_path: /tmp/${{ matrix.dockerimage }}_develop.sif
           asset_name: ${{ matrix.dockerimage }}_develop.sif
