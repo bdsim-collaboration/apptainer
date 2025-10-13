@@ -56,5 +56,6 @@ jobs:
           GHCR_USER: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "$GHCR_TOKEN" | apptainer remote login oras://ghcr.io -u "$GHCR_USER" --password-stdin
-          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer apptainer push ${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}
+          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer "\
+          echo "$GHCR_TOKEN" | apptainer remote login oras://ghcr.io -u "$GHCR_USER" --password-stdin && \
+          apptainer push ${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}"
