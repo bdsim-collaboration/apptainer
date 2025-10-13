@@ -1,6 +1,7 @@
 name: build bdsim apptainers
 
 on:
+  workflow_dispatch:
   release:
     types:
       - published
