@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           docker pull bdsim/alma9-apptainer 
-          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer apptainer build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
+          docker run -v /tmp:/tmp bdsim/alma9-apptainer apptainer build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
           du -sh /tmp/*sif
 
       - name: Push to GHCR
@@ -60,6 +60,6 @@ jobs:
           echo ${{ github.actor }}
           echo ${{ github.repository_owner }}
           echo ${{ github.ref_name }}
-          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer bash \
+          docker run -v /tmp:/tmp bdsim/alma9-apptainer bash \
           -c "echo ${{ secrets.GITHUB_TOKEN }} | apptainer remote login -u ${{ github.actor }} --password-stdin oras://ghcr.io && \
           apptainer push /tmp/${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}"
