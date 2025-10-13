@@ -30,7 +30,7 @@ jobs:
 
       - name: Flatten bdsim containers
         shell: bash
-        run: singularity build ${{ dockerimage }}_develop.sif docker:bdsim/${{ dockerimage }}:develop
+        run: singularity build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
           
       - name: Create Release
         id: create_release
@@ -49,5 +49,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ dockerimage }}_develop.sif
-          asset_name: ${{ dockerimage }}_develop.sif
+          asset_path: ./${{ matrix.dockerimage }}_develop.sif
+          asset_name: ${{ matrix.dockerimage }}_develop.sif
