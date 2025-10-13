@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           docker pull bdsim/alma9-apptainer 
-          docker run -v ${{ github.workspace }}:/tmp bdsim/alma9-apptainer apptainer build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
+          docker run -v ${{ github.workspace }}:/tmp bdsim/alma9-apptainer apptainer build ${{ matrix.dockerimage }}.sif docker:bdsim/${{ matrix.dockerimage }}:develop
           du -sh ${{ github.workspace }}/*sif
 
       - name: Push to GHCR
