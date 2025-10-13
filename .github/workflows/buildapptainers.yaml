@@ -11,7 +11,6 @@ jobs:
   apptainer-bdsim:
     name: build apptainer images from docker images
     runs-on: ubuntu-latest
-    container: bdsim/alma9-apptainer
 
     strategy:
       fail-fast: false
@@ -47,7 +46,10 @@ jobs:
 
       - name: Flatten bdsim containers
         shell: bash
-        run: singularity build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
+        run: |
+          docker pull bdsim/alma9-apptainer 
+          docker run -ti bdsim/alma9-apptainer
+          singularity build ${{ matrix.dockerimage }}_develop.sif docker:bdsim/${{ matrix.dockerimage }}:develop
           
       - name: Create Release
         id: create_release
