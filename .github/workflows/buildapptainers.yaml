@@ -69,3 +69,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: /tmp/${{ matrix.dockerimage }}_develop.sif
           asset_name: ${{ matrix.dockerimage }}_develop.sif
+          asset_content_type: application/octet-stream
