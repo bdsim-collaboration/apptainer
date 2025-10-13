@@ -19,9 +19,9 @@ jobs:
                       alma9-g4.11.1-bdsim, alma9-g4.11.2-bdsim,
                       alma9-g4.11.3-bdsim]
 
-#    permissions:
-#      contents: read
-#      packages: write  # required for GHCR access
+    permissions:
+      contents: read
+      packages: write  # required for GHCR access
 
     steps:
       - name: Dump job context
@@ -63,6 +63,4 @@ jobs:
           echo $GHCR_USER
           echo ${{ github.repository_owner }}
           echo ${{ github.ref_name }}
-          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer "\
-          echo "$GHCR_TOKEN" | apptainer remote login -u "$GHCR_USER" --password-stdin oras://ghcr.io && \
-          apptainer push /tmp/${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}"
+          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer echo "$GHCR_TOKEN" | apptainer remote login -u "$GHCR_USER" --password-stdin oras://ghcr.io && apptainer push /tmp/${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}
