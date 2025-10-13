@@ -56,11 +56,10 @@ jobs:
           du -sh /tmp/*sif
 
       - name: Push to GHCR
-        env:
-          GHCR_USER: ${{ github.actor }}
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo $GHCR_USER
+          echo ${{ github.actor }}
           echo ${{ github.repository_owner }}
           echo ${{ github.ref_name }}
-          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer echo "$GHCR_TOKEN" | apptainer remote login -u "$GHCR_USER" --password-stdin oras://ghcr.io && apptainer push /tmp/${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}
+          docker run -v /tmp:/tmp --rm bdsim/alma9-apptainer bash \
+          -c "echo ${{ secrets.GITHUB_TOKEN }} | apptainer remote login -u ${{ github.actor }} --password-stdin oras://ghcr.io && \
+          apptainer push /tmp/${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}"
