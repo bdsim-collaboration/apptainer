@@ -30,8 +30,7 @@ jobs:
 
       - name: Flatten bdsim containers
         shell: bash
-        run: |
-          singularity build ${{ dockerimage }}_develop.sif docker:bdsim/${{ dockerimage }}:develop
+        run: singularity build ${{ dockerimage }}_develop.sif docker:bdsim/${{ dockerimage }}:develop
           
       - name: Create Release
         id: create_release
