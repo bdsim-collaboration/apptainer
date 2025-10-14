@@ -66,7 +66,7 @@ jobs:
 
       - name: Make GHCR package public
         run: |
-          PACKAGE_NAME=${{ matrix.dockerimage }}
+          PACKAGE_NAME=${{ matrix.dockerimage }}:${{ github.ref_name }}
           OWNER=${{ github.repository_owner }}
 
           curl -L \
