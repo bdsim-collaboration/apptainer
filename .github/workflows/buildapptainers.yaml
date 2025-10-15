@@ -67,6 +67,10 @@ jobs:
       - name: Make GHCR package public
         run: |
           curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/orgs/${{ github.repository_owner }}/packages?package_type=container
+          curl -L \
             -X PATCH \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
