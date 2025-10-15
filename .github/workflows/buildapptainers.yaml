@@ -63,16 +63,3 @@ jobs:
           docker run -v ${{ github.workspace }}:/tmp bdsim/alma9-apptainer bash \
           -c "echo ${{ secrets.GITHUB_TOKEN }} | apptainer remote login -u ${{ github.actor }} --password-stdin oras://ghcr.io && \
           apptainer push /tmp/${{ matrix.dockerimage }}.sif oras://ghcr.io/${{ github.repository_owner }}/${{ matrix.dockerimage }}:${{ github.ref_name }}"
-
-      - name: Make GHCR package public
-        run: |
-          curl -L \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/orgs/${{ github.repository_owner }}/packages?package_type=container
-          curl -L \
-            -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/orgs/${{ github.repository_owner }}/packages/container/${{ matrix.dockerimage }}/visibility \
-            -d '{"visibility":"public"}'
